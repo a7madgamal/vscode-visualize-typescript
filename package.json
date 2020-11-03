@@ -1,5 +1,6 @@
 {
   "name": "visualize-typescript",
+  "publisher": "ahmed-hassanein",
   "displayName": "Visualize Typescript",
   "description": "finally add images and colors to typescript types!",
   "version": "0.0.1",
