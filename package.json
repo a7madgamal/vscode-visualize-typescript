@@ -1,6 +1,7 @@
 {
   "name": "visualize-typescript",
   "publisher": "ahmed-hassanein",
+  "repository": "https://github.com/a7madgamal/vscode-visualize-typescript",
   "displayName": "Visualize Typescript",
   "description": "finally add images and colors to typescript types!",
   "version": "0.0.1",
