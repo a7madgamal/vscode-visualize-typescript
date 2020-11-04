@@ -9,9 +9,10 @@ just add this magical comment at the type definition and you will see it when yo
 ```
 export type ColorsType = {
   red: string /* $color(#ff0000) */;
-  image: string // $img("/Users/hassanein/Downloads/sasha.jpeg");
+  image: string // $img("/Users/hassanein/Downloads/mindblown.jpeg");
 };
 ```
+![image](https://raw.githubusercontent.com/a7madgamal/vscode-visualize-typescript/main/demo.png)
 
 ## Extension Settings
 
