@@ -25,4 +25,4 @@ this is an alpha stage project so please report any issues
 
 ## Release Notes
 
-check the CHANGELOG.md file for details
+check the ./CHANGELOG.md file for details
