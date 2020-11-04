@@ -4,15 +4,30 @@ Ever wished to add thumbnails to a typescript component or type OR see the color
 
 just add this magical comment at the type definition and you will see it when you hover over it from any file!
 
-- color support coming soon...
+for colors: `// color(#ffff00)`
+for images: `// image(/full/image/path.png)` or `// image(../relative/path/path.jpg)`
 
-```
-export type ColorsType = {
-  red: string /* $color(#ff0000) */;
-  image: string // $img("/Users/hassanein/Downloads/mindblown.jpeg");
+![image](https://raw.githubusercontent.com/a7madgamal/vscode-visualize-typescript/main/images/colorPreview.png)
+
+![image](https://raw.githubusercontent.com/a7madgamal/vscode-visualize-typescript/main/images/imagePreview.png)
+
+```typescript
+type ColorsType = {
+  inlineColor: string; // color(#ff0000)
+
+  // color(#ff0000)
+  previousLineColor: string;
+
+  inlineImage: string; // image("/abs/path/mindblown.jpg");
+
+  // image("./rel/path/mindblown.jpg")
+  previousLineRelImage: string;
+};
+
+const alsoWorksDirectly = {
+  inlineColor: "red", // color(#ff0000)
 };
 ```
-![image](https://raw.githubusercontent.com/a7madgamal/vscode-visualize-typescript/main/demo.png)
 
 ## Extension Settings
 
@@ -23,6 +38,8 @@ This extension contributes the following settings:
 ## Known Issues
 
 this is an alpha stage project so please report any issues
+
+- only hex colors for now
 
 ## Release Notes
 

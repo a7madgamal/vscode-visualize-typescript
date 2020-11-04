@@ -6,8 +6,10 @@ import {
   Hover,
   workspace,
 } from "vscode";
-
-const IMG_REGEX = /\$img\("(.*)\"\)/;
+import { colorToBase64String } from "./imageUtils";
+import { resolve, dirname } from "path";
+const COLOR_REGEX = /color\((.*)\)/;
+const IMG_REGEX = /image\("(.*)\"\)/;
 const maxHeight = 100;
 
 export const provideHover: HoverProvider = {
@@ -34,34 +36,57 @@ export const provideHover: HoverProvider = {
     const binaryData = await workspace.fs.readFile(targetUri);
     const textLinesArray = binaryData.toString().split("\n");
 
-    let fullLineText = textLinesArray[locationLink.targetRange.start.line];
-    let regexResult = IMG_REGEX.exec(fullLineText);
+    let exactLineText = textLinesArray[locationLink.targetRange.start.line];
+    let previousLineText =
+      locationLink.targetRange.start.line > 0 &&
+      textLinesArray[locationLink.targetRange.start.line - 1];
 
-    if (!regexResult) {
-      // check previous line too
-      if (locationLink.targetRange.start.line > 0) {
-        fullLineText = textLinesArray[locationLink.targetRange.start.line - 1];
-        regexResult = IMG_REGEX.exec(fullLineText);
-      } else {
-        return;
+    let imageRegexResult = IMG_REGEX.exec(exactLineText);
+    let colorRegexResult = COLOR_REGEX.exec(exactLineText);
+
+    if (previousLineText) {
+      if (!imageRegexResult) {
+        imageRegexResult = IMG_REGEX.exec(previousLineText);
       }
-      if (!regexResult) {
-        return;
+
+      if (!colorRegexResult) {
+        colorRegexResult = COLOR_REGEX.exec(previousLineText);
       }
     }
 
-    const imagePath = regexResult[1];
+    if (imageRegexResult) {
+      const imagePath = imageRegexResult[1];
 
-    if (!imagePath) {
-      return;
+      if (!imagePath) {
+        return;
+      }
+      const absPath = resolve(dirname(targetUri.path), imagePath);
+
+      let mdString = `![image](${absPath}|height=${maxHeight})`;
+
+      const contents = new MarkdownString(mdString);
+      contents.isTrusted = true;
+
+      return new Hover(contents);
+    } else if (colorRegexResult) {
+      const color = colorRegexResult[1];
+
+      if (!color) {
+        return;
+      }
+
+      const width = 50;
+      const height = 50;
+
+      const base64String = await colorToBase64String(color, width, height);
+
+      let mdString = `![color](data:image/png;base64,${base64String}|height=${height})`;
+
+      const contents = new MarkdownString(mdString);
+      contents.isTrusted = true;
+
+      return new Hover(contents);
     }
-
-    let mdString = `\r\n![file://${imagePath}](${imagePath}|height=${maxHeight})\r\n`;
-
-    const contents = new MarkdownString(mdString);
-    contents.isTrusted = true;
-
-    return new Hover(contents);
   },
 };
 
