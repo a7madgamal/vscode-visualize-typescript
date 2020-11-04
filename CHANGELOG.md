@@ -8,3 +8,7 @@
 ## [0.0.2]
 
 - Support previous line comments too
+
+## [0.0.3]
+
+- Add an image and make the extension preview
