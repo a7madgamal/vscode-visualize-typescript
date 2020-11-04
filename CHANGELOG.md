@@ -17,3 +17,7 @@
 
 - Add support for colors
 - Add support for relative paths
+
+## [0.1.1]
+
+- Improve supported files and enable plugin by default

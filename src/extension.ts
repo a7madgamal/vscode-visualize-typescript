@@ -12,7 +12,7 @@ let disposables: Disposable[] = [];
 export function activate(context: ExtensionContext) {
   console.log("activate", { context });
 
-  languages.registerHoverProvider("typescript", provideHover);
+  languages.registerHoverProvider("*", provideHover);
 }
 
 export function deactivate() {

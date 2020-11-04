@@ -15,7 +15,7 @@ const maxHeight = 100;
 export const provideHover: HoverProvider = {
   provideHover: async (document, position, _token) => {
     if (
-      !workspace.getConfiguration("visualize-typescript").get("enabled", false)
+      !workspace.getConfiguration("visualize-typescript").get("enabled", true)
     ) {
       return;
     }
