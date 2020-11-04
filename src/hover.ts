@@ -34,16 +34,20 @@ export const provideHover: HoverProvider = {
     const binaryData = await workspace.fs.readFile(targetUri);
     const textLinesArray = binaryData.toString().split("\n");
 
-    const fullLineText = textLinesArray[locationLink.targetRange.start.line];
-
-    if (!fullLineText) {
-      return;
-    }
-
-    const regexResult = IMG_REGEX.exec(fullLineText);
+    let fullLineText = textLinesArray[locationLink.targetRange.start.line];
+    let regexResult = IMG_REGEX.exec(fullLineText);
 
     if (!regexResult) {
-      return;
+      // check previous line too
+      if (locationLink.targetRange.start.line > 0) {
+        fullLineText = textLinesArray[locationLink.targetRange.start.line - 1];
+        regexResult = IMG_REGEX.exec(fullLineText);
+      } else {
+        return;
+      }
+      if (!regexResult) {
+        return;
+      }
     }
 
     const imagePath = regexResult[1];
