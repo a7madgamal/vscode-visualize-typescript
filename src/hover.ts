@@ -87,6 +87,7 @@ export const provideHover: HoverProvider = {
 
       return new Hover(contents);
     }
+    return;
   },
 };
 
